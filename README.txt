@@ -1,5 +1,5 @@
 Introduction:
-This game is pretty much the same as the orgirinal Flappy bird game released by .GEARS studio in 2013.
+This game is pretty much the same as the original Flappy bird game released by .GEARS studio in 2013.
 
 Developed using C++ and SDL2 with Codeblocks IDE
 
