@@ -3,11 +3,12 @@ using namespace std;
 
 Audio::Audio() {}
 
-Audio::~Audio()
-{
-    SDL_CloseAudioDevice(deviceId);
-    SDL_FreeWAV(wavBuffer);
-}
+//Deprecated for being error prone
+//Audio::~Audio()
+//{
+//    SDL_CloseAudioDevice(deviceId);
+//    SDL_FreeWAV(wavBuffer);
+//}
 
 void Audio::load(const char* filename)
 {

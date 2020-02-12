@@ -32,10 +32,12 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add directory="D:/Thuan&apos;s files/C++ practice/My projects/Dev libraries/SDL2_i686-w64-mingw32/include" />
+			<Add directory="../Dev libraries/SDL2_ttf_i686-w64-mingw32/include" />
 		</Compiler>
 		<Linker>
 			<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf" />
 			<Add directory="D:/Thuan&apos;s files/C++ practice/My projects/Dev libraries/SDL2_i686-w64-mingw32/lib" />
+			<Add directory="../Dev libraries/SDL2_ttf_i686-w64-mingw32/lib" />
 		</Linker>
 		<Unit filename="audio.cpp" />
 		<Unit filename="bird.cpp" />

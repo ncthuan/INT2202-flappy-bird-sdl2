@@ -391,10 +391,10 @@
 1557411475 source:d:\thuan's files\c++ practice\my projects\flappy bird\audio.cpp
 	"game.h"
 
-1557411475 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\audio.cpp
+1581496671 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\audio.cpp
 	"game.h"
 
-1581490547 d:\thuan's files\programming\c++ practice\my projects\flappy bird\game.h
+1581498280 d:\thuan's files\programming\c++ practice\my projects\flappy bird\game.h
 	<SDL2/SDL.h>
 	<SDL2/SDL_audio.h>
 	<SDL2/SDL_ttf.h>
@@ -408,21 +408,21 @@
 1557411009 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\bird.cpp
 	"game.h"
 
-1555989571 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\main.cpp
+1581497486 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\main.cpp
 	"game.h"
 
 1557416250 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\pipe.cpp
 	"game.h"
 
-1557411009 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\text.cpp
+1581497701 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\text.cpp
 	"game.h"
 
-1557411009 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\texture_struct.cpp
+1581497748 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\texture_struct.cpp
 	"game.h"
 
 1581490586 d:\thuan's files\programming\c++ practice\my projects\dev libraries\sdl2_ttf_i686-w64-mingw32\include\sdl2\sdl_ttf.h
 	"SDL2/SDL.h"
 
-1581490618 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\operations.cpp
+1581497559 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\operations.cpp
 	"game.h"
 

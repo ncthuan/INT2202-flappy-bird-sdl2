@@ -33,6 +33,8 @@ void LowerPipe::update_pos(const LowerPipe& previousPipe, const int &score)
     update_sprite();
 }
 
+void LowerPipe::setVy(int vy) { Vy = vy; }
+
 // Class UpperPipe
 UpperPipe::UpperPipe()
 {

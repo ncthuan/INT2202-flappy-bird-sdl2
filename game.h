@@ -76,6 +76,7 @@ class LowerPipe : public Texture
     public:
         LowerPipe();
         void update_pos(const LowerPipe& previousPipe, const int &score);
+        void setVy(int vy);
 };
 
 class UpperPipe : public Texture
@@ -110,7 +111,7 @@ class Audio {
     public:
         Audio();
         //Deallocator
-        ~Audio();
+        //~Audio(); //Deprecated for being error prone
         //load WAV file
         void load(const char* filename);
         //play audio
@@ -122,17 +123,22 @@ class Audio {
     bool initialize(SDL_Window* &gWindow, SDL_Renderer* &gRenderer);
 
     //Play the game
-    bool play(SDL_Window* &gWindow, SDL_Renderer* &gRenderer);
+    bool play(SDL_Window* &gWindow, SDL_Renderer* &gRenderer, Texture &backGround, Text &messages,
+         bird &BIRD, LowerPipe &L1, LowerPipe &L2, LowerPipe &L3, UpperPipe &U1, UpperPipe &U2, UpperPipe &U3,
+         Audio &score_sound, Audio &flap_sound, Audio &hit_sound);
 
-    //Initialize the objects
-    void Loading_and_Setting(SDL_Renderer* gRenderer, Texture &backGround, Text &messages,
+    //Load objects' properties
+    void load_objects(SDL_Renderer* gRenderer, Texture &backGround, Text &messages,
+         bird &BIRD, LowerPipe &L1, LowerPipe &L2, LowerPipe &L3, UpperPipe &U1, UpperPipe &U2, UpperPipe &U3,
+         Audio &score_sound, Audio &flap_sound, Audio &hit_sound);
+
+    //Set objects' initial state
+    void set_objects(SDL_Renderer* gRenderer, Texture &backGround, Text &messages,
          bird &BIRD, LowerPipe &L1, LowerPipe &L2, LowerPipe &L3, UpperPipe &U1, UpperPipe &U2, UpperPipe &U3,
          Audio &score_sound, Audio &flap_sound, Audio &hit_sound);
 
     //Display final score & check if player want to play again & deallocate objects
-    bool end_Game(SDL_Renderer* gRenderer, SDL_Event &e, int &score, Texture &backGround, Text &messages,
-         bird &BIRD, LowerPipe &L1, LowerPipe &L2, LowerPipe &L3, UpperPipe &U1, UpperPipe &U2, UpperPipe &U3,
-         Audio &score_sound, Audio &flap_sound, Audio &hit_sound);
+    bool end_Game(SDL_Renderer* gRenderer, SDL_Event &e, int &score, Text &messages);
 
     //Frees media and shuts down SDL
     void close(SDL_Window* &gWindow, SDL_Renderer* &gRenderer);

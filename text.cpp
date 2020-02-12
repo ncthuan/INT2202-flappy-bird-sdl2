@@ -11,6 +11,7 @@ Text::Text()
     clipBoard.y = 0;
 }
 
+//Deprecated for being error prone
 void Text::free()
 {
     //Deallocates texture

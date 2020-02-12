@@ -46,82 +46,88 @@ void close(SDL_Window* &gWindow, SDL_Renderer* &gRenderer)
     SDL_Quit();
 }
 
-void Loading_and_Setting(SDL_Renderer* gRenderer, Texture &backGround, Text &messages,
+void load_objects(SDL_Renderer* gRenderer, Texture &backGround, Text &messages,
          bird &BIRD, LowerPipe &L1, LowerPipe &L2, LowerPipe &L3, UpperPipe &U1, UpperPipe &U2, UpperPipe &U3,
          Audio &score_sound, Audio &flap_sound, Audio &hit_sound)
 {
     //background
     backGround.loadFromFile("img/background.bmp", gRenderer);
-    backGround.W = SCREEN_WIDTH;
-    backGround.H = SCREEN_HEIGHT;
-    backGround.update_sprite();
-
     //text
     messages.load("Press any key to play", 14, gRenderer );
-
-    //set bird
+    //bird
     BIRD.loadFromFile("img/bird_animation.bmp", gRenderer);
-    BIRD.setClips();
-    BIRD.W = BIRD_W;
-    BIRD.H = BIRD_H;
-
-    //set pipes
+    //pipes
     L1.loadFromFile("img/LowerPipe.bmp", gRenderer);
-    L1.W = PIPE_WIDTH;
-    L1.H = PIPE_HEIGHT;
-    L1.x = SCREEN_WIDTH;
-    L1.y = PIPE_VERTICAL_DIST + 100 + rand()%300 ;
-
     U1.loadFromFile("img/UpperPipe.bmp", gRenderer);
-    U1.W = PIPE_WIDTH;
-    U1.H = PIPE_HEIGHT;
-    U1.update_pos(L1);
-
     L2.loadFromFile("img/LowerPipe.bmp", gRenderer);
-    L2.W = PIPE_WIDTH;
-    L2.H = PIPE_HEIGHT;
-    L2.x = L1.x + PIPE_HORIZONTAL_DIST;
-    L2.y = PIPE_VERTICAL_DIST + 100 + rand()%300 ;
-
     U2.loadFromFile("img/UpperPipe.bmp", gRenderer);
-    U2.W = PIPE_WIDTH;
-    U2.H = PIPE_HEIGHT;
-    U2.update_pos(L2);
-
     L3.loadFromFile("img/LowerPipe.bmp", gRenderer);
-    L3.W = PIPE_WIDTH;
-    L3.H = PIPE_HEIGHT;
-    L3.x = L2.x + PIPE_HORIZONTAL_DIST;
-    L3.y = PIPE_VERTICAL_DIST + 100 + rand()%300 ;
-
     U3.loadFromFile("img/UpperPipe.bmp", gRenderer);
-    U3.W = PIPE_WIDTH;
-    U3.H = PIPE_HEIGHT;
-    U3.update_pos(L3);
-
-    //Load sound effects
+    //sound effects
     score_sound.load("sound/sfx_score.wav");
     flap_sound.load("sound/sfx_flap.wav");
     hit_sound.load("sound/sfx_hit.wav");
 }
 
-bool play(SDL_Window* &gWindow, SDL_Renderer* &gRenderer)
+void set_objects(SDL_Renderer* gRenderer, Texture &backGround, Text &messages,
+         bird &BIRD, LowerPipe &L1, LowerPipe &L2, LowerPipe &L3, UpperPipe &U1, UpperPipe &U2, UpperPipe &U3,
+         Audio &score_sound, Audio &flap_sound, Audio &hit_sound)
+{
+    //background
+    backGround.W = SCREEN_WIDTH;
+    backGround.H = SCREEN_HEIGHT;
+    backGround.update_sprite();
+    //text
+    messages.load("Press any key to play", 14, gRenderer );
+    //bird
+    BIRD.setClips();
+    BIRD.x = Bird_POSx;
+    BIRD.y = Bird_POSy;
+    BIRD.W = BIRD_W;
+    BIRD.H = BIRD_H;
+    //pipes
+    L1.W = PIPE_WIDTH;
+    L1.H = PIPE_HEIGHT;
+    L1.x = SCREEN_WIDTH;
+    L1.y = PIPE_VERTICAL_DIST + 100 + rand()%300 ;
+    L1.setVy(0);
+
+    U1.W = PIPE_WIDTH;
+    U1.H = PIPE_HEIGHT;
+    U1.update_pos(L1);
+
+    L2.W = PIPE_WIDTH;
+    L2.H = PIPE_HEIGHT;
+    L2.x = L1.x + PIPE_HORIZONTAL_DIST;
+    L2.y = PIPE_VERTICAL_DIST + 100 + rand()%300 ;
+    L2.setVy(0);
+
+    U2.W = PIPE_WIDTH;
+    U2.H = PIPE_HEIGHT;
+    U2.update_pos(L2);
+
+    L3.W = PIPE_WIDTH;
+    L3.H = PIPE_HEIGHT;
+    L3.x = L2.x + PIPE_HORIZONTAL_DIST;
+    L3.y = PIPE_VERTICAL_DIST + 100 + rand()%300 ;
+    L3.setVy(0);
+
+    U3.W = PIPE_WIDTH;
+    U3.H = PIPE_HEIGHT;
+    U3.update_pos(L3);
+}
+
+bool play(SDL_Window* &gWindow, SDL_Renderer* &gRenderer, Texture &backGround, Text &messages,
+         bird &BIRD, LowerPipe &L1, LowerPipe &L2, LowerPipe &L3, UpperPipe &U1, UpperPipe &U2, UpperPipe &U3,
+         Audio &score_sound, Audio &flap_sound, Audio &hit_sound)
 {
     srand(time(0));
     bool start_Game = false;
     int score = 0;
     int frame_Rendered = 0; //numbers of frame rendered
 
-    //Objects declaration
-    Texture backGround;
-    Text messages;
-    bird BIRD;
-    LowerPipe L1, L2, L3;
-    UpperPipe U1, U2, U3;
-    Audio score_sound, flap_sound, hit_sound;
-
-    //Load images and set objects' initial properties
-    Loading_and_Setting(gRenderer, backGround, messages, BIRD, L1, L2, L3, U1, U2, U3, score_sound, flap_sound, hit_sound);
+    //set object's initial properties
+    set_objects(gRenderer, backGround, messages, BIRD, L1, L2, L3, U1, U2, U3, score_sound, flap_sound, hit_sound);
 
     //Event handler
     SDL_Event e;
@@ -228,13 +234,13 @@ bool play(SDL_Window* &gWindow, SDL_Renderer* &gRenderer)
     }
     SDL_Delay(300);
 
-    if ( end_Game(gRenderer, e, score, backGround, messages, BIRD, L1, L2, L3, U1, U2, U3, score_sound, flap_sound, hit_sound) ) return false;
-    else return true;
+    if ( end_Game(gRenderer, e, score, messages) )
+        return false;
+    else
+        return true;
 }
 
-bool end_Game(SDL_Renderer* gRenderer, SDL_Event &e, int &score, Texture &backGround, Text &messages,
-         bird &BIRD, LowerPipe &L1, LowerPipe &L2, LowerPipe &L3, UpperPipe &U1, UpperPipe &U2, UpperPipe &U3,
-         Audio &score_sound, Audio &flap_sound, Audio &hit_sound)
+bool end_Game(SDL_Renderer* gRenderer, SDL_Event &e, int &score, Text &messages)
 {
     //Gameover banner
     Texture gameover;
@@ -267,11 +273,18 @@ bool end_Game(SDL_Renderer* gRenderer, SDL_Event &e, int &score, Texture &backGr
     SDL_RenderPresent( gRenderer );
 
     //Deallocate objects
-    backGround.free();
-    messages.free();
-    BIRD.free();
-    L1.free(); L2.free(); L3.free(); U1.free(); U2.free(); U3.free();
-    score_sound.~Audio(); flap_sound.~Audio(); hit_sound.~Audio();
+    //Deprecated for being error prone
+    /*try {
+        backGround.free();
+        messages.free();
+        BIRD.free();
+        L1.free(); L2.free(); L3.free(); U1.free(); U2.free(); U3.free();
+        score_sound.~Audio(); flap_sound.~Audio(); hit_sound.~Audio();
+    }
+    catch (int e) {
+        cout << "error: Deallocating objects" << endl;
+    }*/
+
 
     //Check if player want to play again
     while ( 1 ) {
