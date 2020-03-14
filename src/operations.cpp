@@ -3,7 +3,7 @@ using namespace std;
 
 bool initialize(SDL_Window* &gWindow, SDL_Renderer* &gRenderer) {
     //Initialization flag
-	bool success = true;
+    bool success = true;
 
     if (SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0 || TTF_Init() == -1) {
         cout << "SDL could not initialize! SDL Error: " << SDL_GetError() << ", " << TTF_GetError() << endl;
