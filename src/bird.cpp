@@ -1,8 +1,7 @@
 #include "game.h"
 using namespace std;
 
-bird::bird()
-{
+bird::bird() {
     //initialize bird
     texture = NULL;
     x = Bird_POSx;
@@ -12,24 +11,20 @@ bird::bird()
     update_sprite();
 }
 
-bool bird::is_OnTheGround()
-{
+bool bird::is_OnTheGround() {
     return ( y >= GROUND);
 }
 
-int bird::getAngle()
-{
+int bird::getAngle() {
     return angle;
 }
 
-void bird::flap()
-{
+void bird::flap() {
     Vy = FLAP_VELOCITY; // pixels/frame
     angle = -25;        //degree
 }
 
-void bird::setClips()
-{
+void bird::setClips() {
     //Set sprite clips
     clip[ 0 ].x =   0;
     clip[ 0 ].y =   0;
@@ -47,13 +42,12 @@ void bird::setClips()
     clip[ 2 ].h =  56;
 }
 
-void bird::update_pos()
-{
-    //update y
+void bird::update_pos() {
+    //update y coordinate
     y += Vy;
-    //set ground bound
-    if ( is_OnTheGround() ) y = GROUND;
-    //sync
+    //ground boundary
+    if (is_OnTheGround()) y = GROUND;
+    //update position of the sprite
     update_sprite();
     //change the bird's angle
     if (Vy > 7) angle += a;

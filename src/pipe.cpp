@@ -2,8 +2,7 @@
 using namespace std;
 
 // Class LowerPipe
-LowerPipe::LowerPipe()
-{
+LowerPipe::LowerPipe() {
     texture = NULL;
     W = PIPE_WIDTH;
     H = PIPE_HEIGHT;
@@ -11,8 +10,7 @@ LowerPipe::LowerPipe()
     update_sprite();
 }
 
-void LowerPipe::update_pos(const LowerPipe& previousPipe, const int &score)
-{
+void LowerPipe::update_pos(const LowerPipe& previousPipe, const int &score) {
     //update coordinates
     x += -SPEED;
     y += Vy;
@@ -29,23 +27,25 @@ void LowerPipe::update_pos(const LowerPipe& previousPipe, const int &score)
         if (Vy != 0) Vy = 0;
         if (rand()%100 < move_rate) Vy = (y < 400 ? 1 : -1);
     }
-    //sync
+    //update position of the sprite
     update_sprite();
 }
 
-void LowerPipe::setVy(int vy) { Vy = vy; }
+void LowerPipe::setVy(int vy) {
+    Vy = vy;
+}
+
+
 
 // Class UpperPipe
-UpperPipe::UpperPipe()
-{
+UpperPipe::UpperPipe() {
     texture = NULL;
     W = PIPE_WIDTH;
     H = PIPE_HEIGHT;
     update_sprite();
 }
 
-void UpperPipe::update_pos(const LowerPipe& Lower)
-{
+void UpperPipe::update_pos(const LowerPipe& Lower) {
     //update coordinates according to lowerPipe
     x = Lower.x;
     y = Lower.y - PIPE_VERTICAL_DIST - 600;
@@ -54,6 +54,6 @@ void UpperPipe::update_pos(const LowerPipe& Lower)
         //respawn pipe
         x = SCREEN_WIDTH;
     }
-    //sync
+    //update position of the sprite
     update_sprite();
 }

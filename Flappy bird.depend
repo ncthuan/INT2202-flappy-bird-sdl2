@@ -426,3 +426,35 @@
 1581497559 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\operations.cpp
 	"game.h"
 
+1584192379 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\src\audio.cpp
+	"game.h"
+
+1584193570 d:\thuan's files\programming\c++ practice\my projects\flappy bird\src\game.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_audio.h>
+	<SDL2/SDL_ttf.h>
+	<iostream>
+	<cmath>
+	<string>
+	<cstdlib>
+	<time.h>
+	<fstream>
+
+1584191433 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\src\bird.cpp
+	"game.h"
+
+1584191587 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\src\main.cpp
+	"game.h"
+
+1584193024 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\src\operations.cpp
+	"game.h"
+
+1584193121 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\src\pipe.cpp
+	"game.h"
+
+1584193233 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\src\text.cpp
+	"game.h"
+
+1584193389 source:d:\thuan's files\programming\c++ practice\my projects\flappy bird\src\texture_struct.cpp
+	"game.h"
+

@@ -1,32 +1,26 @@
 #include "game.h"
 using namespace std;
 
-bool initialize(SDL_Window* &gWindow, SDL_Renderer* &gRenderer)
-{
+bool initialize(SDL_Window* &gWindow, SDL_Renderer* &gRenderer) {
     //Initialization flag
 	bool success = true;
 
-    if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0 || TTF_Init() == -1)
-    {
+    if (SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0 || TTF_Init() == -1) {
         cout << "SDL could not initialize! SDL Error: " << SDL_GetError() << ", " << TTF_GetError() << endl;
         success = false;
     }
-    else
-    {
+    else {
         //Create window
-        gWindow = SDL_CreateWindow( "Flappy Bird", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0 );
-        if( gWindow == NULL )
-        {
+        gWindow = SDL_CreateWindow( "Flappy Bird", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+        if (gWindow == NULL) {
             cout << "Window could not be created! SDL Error: " << SDL_GetError() << endl;
             success = false;
         }
-        else
-        {
+        else {
             //Create renderer for window
             Uint32 render_flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
             gRenderer = SDL_CreateRenderer( gWindow, -1, render_flags );
-            if( gRenderer == NULL )
-            {
+            if( gRenderer == NULL ) {
                 cout << "Renderer could not be created! SDL Error: " << SDL_GetError() << endl;
                 success = false;
             }
@@ -36,8 +30,7 @@ bool initialize(SDL_Window* &gWindow, SDL_Renderer* &gRenderer)
     return success;
 }
 
-void close(SDL_Window* &gWindow, SDL_Renderer* &gRenderer)
-{
+void close(SDL_Window* &gWindow, SDL_Renderer* &gRenderer) {
     //Destroy window
     SDL_DestroyRenderer( gRenderer );
     SDL_DestroyWindow( gWindow );
@@ -47,9 +40,9 @@ void close(SDL_Window* &gWindow, SDL_Renderer* &gRenderer)
 }
 
 void load_objects(SDL_Renderer* gRenderer, Texture &backGround, Text &messages,
-         bird &BIRD, LowerPipe &L1, LowerPipe &L2, LowerPipe &L3, UpperPipe &U1, UpperPipe &U2, UpperPipe &U3,
-         Audio &score_sound, Audio &flap_sound, Audio &hit_sound)
-{
+     bird &BIRD, LowerPipe &L1, LowerPipe &L2, LowerPipe &L3, UpperPipe &U1, UpperPipe &U2, UpperPipe &U3,
+     Audio &score_sound, Audio &flap_sound, Audio &hit_sound) {
+    ////
     //background
     backGround.loadFromFile("img/background.bmp", gRenderer);
     //text
@@ -70,9 +63,9 @@ void load_objects(SDL_Renderer* gRenderer, Texture &backGround, Text &messages,
 }
 
 void set_objects(SDL_Renderer* gRenderer, Texture &backGround, Text &messages,
-         bird &BIRD, LowerPipe &L1, LowerPipe &L2, LowerPipe &L3, UpperPipe &U1, UpperPipe &U2, UpperPipe &U3,
-         Audio &score_sound, Audio &flap_sound, Audio &hit_sound)
-{
+     bird &BIRD, LowerPipe &L1, LowerPipe &L2, LowerPipe &L3, UpperPipe &U1, UpperPipe &U2, UpperPipe &U3,
+     Audio &score_sound, Audio &flap_sound, Audio &hit_sound) {
+    ////
     //background
     backGround.W = SCREEN_WIDTH;
     backGround.H = SCREEN_HEIGHT;
@@ -85,6 +78,7 @@ void set_objects(SDL_Renderer* gRenderer, Texture &backGround, Text &messages,
     BIRD.y = Bird_POSy;
     BIRD.W = BIRD_W;
     BIRD.H = BIRD_H;
+    BIRD.update_pos();
     //pipes
     L1.W = PIPE_WIDTH;
     L1.H = PIPE_HEIGHT;
@@ -118,13 +112,13 @@ void set_objects(SDL_Renderer* gRenderer, Texture &backGround, Text &messages,
 }
 
 bool play(SDL_Window* &gWindow, SDL_Renderer* &gRenderer, Texture &backGround, Text &messages,
-         bird &BIRD, LowerPipe &L1, LowerPipe &L2, LowerPipe &L3, UpperPipe &U1, UpperPipe &U2, UpperPipe &U3,
-         Audio &score_sound, Audio &flap_sound, Audio &hit_sound)
-{
+     bird &BIRD, LowerPipe &L1, LowerPipe &L2, LowerPipe &L3, UpperPipe &U1, UpperPipe &U2, UpperPipe &U3,
+     Audio &score_sound, Audio &flap_sound, Audio &hit_sound) {
+    ////
     srand(time(0));
-    bool start_Game = false;
+    bool start_game = false;
     int score = 0;
-    int frame_Rendered = 0; //numbers of frame rendered
+    int frame_rendered = 0; //numbers of frame rendered
 
     //set object's initial properties
     set_objects(gRenderer, backGround, messages, BIRD, L1, L2, L3, U1, U2, U3, score_sound, flap_sound, hit_sound);
@@ -132,34 +126,30 @@ bool play(SDL_Window* &gWindow, SDL_Renderer* &gRenderer, Texture &backGround, T
     //Event handler
     SDL_Event e;
 
-    //Initial Animation loop
-    BIRD.update_pos();
-    while( !start_Game )
-    {
+    //Render start screen
+    SDL_RenderClear( gRenderer );
+    SDL_RenderCopy( gRenderer, backGround.texture, NULL, &backGround.sprite );
+    SDL_RenderCopy( gRenderer, messages.texture, NULL, &messages.clipBoard);
+    SDL_RenderCopyEx( gRenderer, BIRD.texture, &BIRD.clip[1], &BIRD.sprite, 0, NULL, SDL_FLIP_NONE);
+    SDL_RenderPresent( gRenderer );
+    //Waiting for the player to press a key to start the game
+    while( !start_game ) {
         //Handle events on queue
-        while( SDL_PollEvent(&e) != 0 )
-        {
+        while( SDL_PollEvent(&e) != 0 ) {
             if (e.type == SDL_QUIT) return false;
             if (e.type == SDL_KEYDOWN) {
-                start_Game = true;
+                start_game = true;
                 BIRD.flap(); //Bird's initial flap when the game begins
-                messages.load( to_string(score), 36, gRenderer );
+                messages.load(to_string(score), 36, gRenderer);
             }
         }
-        SDL_RenderClear( gRenderer );
-        SDL_RenderCopy( gRenderer, backGround.texture, NULL, &backGround.sprite );
-        SDL_RenderCopy( gRenderer, messages.texture, NULL, &messages.clipBoard);
-        SDL_RenderCopyEx( gRenderer, BIRD.texture, &BIRD.clip[1], &BIRD.sprite, 0, NULL, SDL_FLIP_NONE);
-        SDL_RenderPresent( gRenderer );
         SDL_Delay(1000/FPS);
     }
 
     //Main Animation loop
-    while( 1 )
-    {
+    while(1) {
         //Handle events on queue
-        while( SDL_PollEvent(&e) != 0 )
-        {
+        while( SDL_PollEvent(&e) != 0 ) {
             if (e.type == SDL_QUIT) return false;
             if (e.type == SDL_KEYDOWN) {
                 BIRD.flap();
@@ -179,7 +169,7 @@ bool play(SDL_Window* &gWindow, SDL_Renderer* &gRenderer, Texture &backGround, T
         //Clear screen
         SDL_RenderClear( gRenderer );
 
-        //Render
+        //Render objects
         SDL_RenderCopy( gRenderer, backGround.texture, NULL, &backGround.sprite );
         SDL_RenderCopy( gRenderer, L1.texture, NULL, &L1.sprite );
         SDL_RenderCopy( gRenderer, U1.texture, NULL, &U1.sprite );
@@ -188,7 +178,7 @@ bool play(SDL_Window* &gWindow, SDL_Renderer* &gRenderer, Texture &backGround, T
         SDL_RenderCopy( gRenderer, L3.texture, NULL, &L3.sprite );
         SDL_RenderCopy( gRenderer, U3.texture, NULL, &U3.sprite );
         SDL_RenderCopy( gRenderer, messages.texture, NULL, &messages.clipBoard);
-        SDL_RenderCopyEx( gRenderer, BIRD.texture, &BIRD.clip[ (frame_Rendered/2)%3 ], &BIRD.sprite, BIRD.getAngle(), NULL, SDL_FLIP_NONE);
+        SDL_RenderCopyEx( gRenderer, BIRD.texture, &BIRD.clip[ (frame_rendered/2)%3 ], &BIRD.sprite, BIRD.getAngle(), NULL, SDL_FLIP_NONE);
 
         //Update screen
         SDL_RenderPresent( gRenderer );
@@ -204,9 +194,8 @@ bool play(SDL_Window* &gWindow, SDL_Renderer* &gRenderer, Texture &backGround, T
         if ( BIRD.is_OnTheGround() ) { hit_sound.play(); break; }
 
         //Count score & generate sound
-        frame_Rendered++;
-        if ( frame_Rendered > 75 && frame_Rendered % 75 == 0 )
-        {
+        frame_rendered++;
+        if (frame_rendered > 75 && frame_rendered % 75 == 0 ) {
             score++;
             score_sound.play();
             messages.load( to_string(score), 36, gRenderer );
@@ -217,8 +206,7 @@ bool play(SDL_Window* &gWindow, SDL_Renderer* &gRenderer, Texture &backGround, T
     }
 
     //The bird falls
-    while ( !BIRD.is_OnTheGround() )
-    {
+    while (!BIRD.is_OnTheGround()) {
         BIRD.update_pos();
         SDL_RenderClear( gRenderer );
         SDL_RenderCopy( gRenderer, backGround.texture, NULL, &backGround.sprite );
@@ -234,15 +222,15 @@ bool play(SDL_Window* &gWindow, SDL_Renderer* &gRenderer, Texture &backGround, T
     }
     SDL_Delay(300);
 
-    if ( end_Game(gRenderer, e, score, messages) )
+    //Call the end game method to output the result and check if the player want to play again
+    if (end_game(gRenderer, e, score, messages))
         return false;
     else
         return true;
 }
 
-bool end_Game(SDL_Renderer* gRenderer, SDL_Event &e, int &score, Text &messages)
-{
-    //Gameover banner
+bool end_game(SDL_Renderer* gRenderer, SDL_Event &e, int &score, Text &messages) {
+    //Render gameover banner
     Texture gameover;
     gameover.loadFromFile("img/gameover.bmp", gRenderer);
     gameover.W = 300;
@@ -284,7 +272,6 @@ bool end_Game(SDL_Renderer* gRenderer, SDL_Event &e, int &score, Text &messages)
     catch (int e) {
         cout << "error: Deallocating objects" << endl;
     }*/
-
 
     //Check if player want to play again
     while ( 1 ) {
