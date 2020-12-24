@@ -1,5 +1,9 @@
+Objectives:
+a hands-on project to advance my programming skills in C++, and basic OOP
+for the grade, u know
+
 Description:
-This game is pretty much the same as the original well-known Flappy bird game released by .GEARS studio in 2013.
+This game is pretty much the same as the original well-known Flappy bird game released by .GEARS studio in 2013. (google it in case u don't know)
 Except for the fact that some features are not developed and the pipes might move vertically.
 
 Tool and technologies:
